@@ -1,0 +1,15 @@
+quarkus:
+  http:
+    port: 8089
+
+  log:
+    console:
+      format: "%d{HH:mm:ss} %-5p [%c{2.}] CorrelationId: %X{CorrelationId} (%t) %s%e%n"
+    level: DEBUG
+
+  datasource:
+    db-kind: h2
+    username: admin
+  hibernate-orm:
+    database:
+      generation: drop-and-create
