@@ -7,6 +7,7 @@ import org.quark.ms.exception.MsException;
 import org.quark.ms.fragment.DbService;
 import org.quark.ms.fragment.SessionService;
 import org.quark.ms.model.request.CreateSessionRequest;
+import org.quark.ms.model.response.LoginResponse;
 
 import static org.quark.ms.utils.MsContants.ErrorStatus.MISMATCH_CREDENTIAL;
 import static org.quark.ms.utils.MsContants.ErrorStatus.MISSING_PERSON;
@@ -21,16 +22,16 @@ public class LoginService {
     SessionService service;
 
 
-    public void loginService(String email, String nome, String cognome){
+    public LoginResponse loginService(String email, String nome, String cognome){
 
 
         log.info("LoginService started");
-
+        // faccio get
         var person = dbService.getPerson(email);
-
+        // se e ko o non ce la persona exception
         if(Boolean.FALSE.equals(person.getSuccess()) || person.getPerson() != null)
             throw new MsException("Person not found",null,MISSING_PERSON);
-
+        // se non matchano exception unauthorized
         if(person.getPerson().getNome() != nome || person.getPerson().getCognome() != cognome)
             throw new MsException("No matching login",null,MISMATCH_CREDENTIAL);
 
@@ -40,8 +41,15 @@ public class LoginService {
         session.setNome(nome);
         session.setScope("L1");
 
-        var sessionResp = service.createSession(session);
+        // creo session
+        service.createSession(session);
 
+        //torno response
+        var response = new LoginResponse();
+        response.setAction("Go");
+        response.setSuccess(true);
         log.info("LoginService ended successfully");
+
+        return response;
     }
 }
