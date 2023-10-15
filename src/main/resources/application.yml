@@ -7,9 +7,6 @@ quarkus:
       format: "%d{HH:mm:ss} %-5p [%c{2.}] CorrelationId: %X{CorrelationId} (%t) %s%e%n"
     level: DEBUG
 
-  datasource:
-    db-kind: h2
-    username: admin
-  hibernate-orm:
-    database:
-      generation: drop-and-create
+  rest-client:
+    db-service.url: https://10.203.196.252/GIANOS3D/PORTALE2.gi
+    cache-service.url: http://localhost:9000/orc/start
